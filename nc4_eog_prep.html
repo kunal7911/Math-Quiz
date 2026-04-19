@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NC 4th Grade EOG Prep Tests</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;min-height:100vh;color:#222}
+
+/* ── PAGE HEADER ── */
+.page-header{background:#1a237e;color:#fff;padding:22px 24px;text-align:center}
+.page-header h1{font-size:1.6em;margin-bottom:4px}
+.page-header p{font-size:.92em;opacity:.85}
+
+/* ── TAB BAR ── */
+.tab-bar{display:flex;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);position:sticky;top:0;z-index:100}
+.tab-btn{flex:1;padding:14px 8px;border:none;background:none;font-size:.95em;font-weight:600;cursor:pointer;color:#666;border-bottom:3px solid transparent;transition:color .2s,border-color .2s}
+.tab-btn.active-0{color:#4caf50;border-color:#4caf50}
+.tab-btn.active-1{color:#2196f3;border-color:#2196f3}
+.tab-btn.active-2{color:#ff9800;border-color:#ff9800}
+.tab-btn .tab-score{display:block;font-size:.75em;font-weight:400;margin-top:2px}
+
+/* ── TEST PANELS ── */
+.test-panel{display:none;max-width:820px;margin:0 auto;padding:20px}
+.test-panel.active{display:block}
+
+.test-intro{border-radius:12px;padding:18px 22px;margin-bottom:20px;color:#fff;font-weight:600}
+.intro-0{background:#4caf50}.intro-1{background:#2196f3}.intro-2{background:#ff9800}
+.test-intro h2{font-size:1.15em;margin-bottom:4px}
+.test-intro p{font-size:.88em;opacity:.92;font-weight:400}
+
+/* ── QUESTION BLOCKS ── */
+.q-block{background:#fff;border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.q-num{font-size:.78em;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.q-text{font-size:1em;line-height:1.65;margin-bottom:14px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:border-color .15s,background .15s;font-size:.96em;line-height:1.5;user-select:none}
+.opt:hover:not(.locked){border-color:#90caf9;background:#f0f7ff}
+.opt input{margin-top:3px;flex-shrink:0;accent-color:#1a237e}
+.opt-ltr{font-weight:700;min-width:18px}
+.opt-ltr-0{color:#4caf50}.opt-ltr-1{color:#2196f3}.opt-ltr-2{color:#ff9800}
+.opt.correct{border-color:#4caf50!important;background:#e8f5e9!important}
+.opt.wrong{border-color:#ef5350!important;background:#ffebee!important}
+.opt.show-correct{border-color:#4caf50!important;background:#e8f5e9!important}
+.opt.locked{cursor:default}
+
+/* ── SUBMIT AREA ── */
+.submit-area{text-align:center;padding:24px 0 10px}
+.submit-btn{color:#fff;border:none;padding:13px 42px;border-radius:10px;font-size:1.05em;cursor:pointer;font-weight:700}
+.sbtn-0{background:#4caf50}.sbtn-1{background:#2196f3}.sbtn-2{background:#ff9800}
+.submit-btn:hover{opacity:.88}
+.submit-msg{margin-top:10px;font-size:.88em;color:#b71c1c}
+
+/* ── SCORE CARD ── */
+.score-card{border-radius:14px;padding:28px 22px;margin-bottom:20px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.1);background:#fff}
+.score-ring{width:120px;height:120px;border-radius:50%;margin:0 auto 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;border:6px solid}
+.ring-pass{background:#e8f5e9;border-color:#4caf50;color:#2e7d32}
+.ring-mid{background:#fff8e1;border-color:#ffc107;color:#f57f17}
+.ring-fail{background:#ffebee;border-color:#ef5350;color:#c62828}
+.score-num{font-size:2.3em;line-height:1}
+.score-tot{font-size:.88em}
+.score-msg{margin-top:8px;font-size:1em;color:#555}
+.retry-btn{margin-top:14px;background:#1a237e;color:#fff;border:none;padding:10px 28px;border-radius:8px;cursor:pointer;font-size:.95em;font-weight:600}
+.retry-btn:hover{background:#283593}
+
+/* ── WRONG REVIEW ── */
+.wrong-review{background:#fff;border-radius:10px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
+.wrong-review h3{font-size:1em;color:#444;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #eee}
+.rev-item{padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:.9em;line-height:1.55}
+.rev-item:last-child{border-bottom:none}
+.rev-q{color:#333;margin-bottom:4px}
+.rev-your{color:#c62828}
+.rev-right{color:#2e7d32;font-weight:600}
+
+.hidden{display:none!important}
+@media(max-width:580px){.tab-btn{font-size:.78em;padding:12px 4px}.page-header h1{font-size:1.3em}.q-block{padding:14px}}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>NC 4th Grade EOG Prep Tests</h1>
+  <p>Three full 40-question practice tests — verified against official answer keys</p>
+</div>
+
+<div class="tab-bar" id="tab-bar">
+  <button class="tab-btn" id="tab0" onclick="switchTab(0)">
+    📝 Mock EOG
+    <span class="tab-score" id="tscore0">Not started</span>
+  </button>
+  <button class="tab-btn" id="tab1" onclick="switchTab(1)">
+    📊 Form A
+    <span class="tab-score" id="tscore1">Not started</span>
+  </button>
+  <button class="tab-btn" id="tab2" onclick="switchTab(2)">
+    📋 Form B
+    <span class="tab-score" id="tscore2">Not started</span>
+  </button>
+</div>
+
+<!-- PANEL 0: Mock EOG -->
+<div class="test-panel" id="panel0">
+  <div class="test-intro intro-0">
+    <h2>📝 Mock EOG — 4th Grade End of Year Review</h2>
+    <p>40 multiple-choice questions covering Geometry, Measurement, Place Value, Operations, Fractions &amp; Decimals.</p>
+  </div>
+  <div id="qs0"></div>
+  <div class="submit-area">
+    <button class="submit-btn sbtn-0" id="sbtn0" onclick="submitTest(0)">Submit Test 1</button>
+    <div class="submit-msg" id="smsg0"></div>
+  </div>
+  <div id="result0" class="hidden"></div>
+</div>
+
+<!-- PANEL 1: Form A -->
+<div class="test-panel" id="panel1">
+  <div class="test-intro intro-1">
+    <h2>📊 iReady Benchmark Form A — Math Level 4</h2>
+    <p>40 multiple-choice questions covering Operations &amp; Algebraic Thinking, Number &amp; Base Ten, Fractions, Measurement &amp; Data, and Geometry.</p>
+  </div>
+  <div id="qs1"></div>
+  <div class="submit-area">
+    <button class="submit-btn sbtn-1" id="sbtn1" onclick="submitTest(1)">Submit Test 2</button>
+    <div class="submit-msg" id="smsg1"></div>
+  </div>
+  <div id="result1" class="hidden"></div>
+</div>
+
+<!-- PANEL 2: Form B -->
+<div class="test-panel" id="panel2">
+  <div class="test-intro intro-2">
+    <h2>📋 iReady Benchmark Form B — Math Level 4</h2>
+    <p>40 multiple-choice questions covering Operations &amp; Algebraic Thinking, Number &amp; Base Ten, Fractions, Measurement &amp; Data, and Geometry.</p>
+  </div>
+  <div id="qs2"></div>
+  <div class="submit-area">
+    <button class="submit-btn sbtn-2" id="sbtn2" onclick="submitTest(2)">Submit Test 3</button>
+    <div class="submit-msg" id="smsg2"></div>
+  </div>
+  <div id="result2" class="hidden"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   QUESTION DATA  (answers are 0-indexed: A=0 B=1 C=2 D=3)
+═══════════════════════════════════════════════ */
+const TESTS = [
+/* ── TEST 0: MOCK EOG ── */
+{
+  title:"Mock EOG Test",
+  questions:[
+    {q:"Which description applies to all rectangles?",o:["Four sides with the same length","Four sides with different lengths","Four sides with two sets of parallel sides","Four sides with only one set of parallel sides"],a:2},
+    {q:"How many lines of symmetry does a square have?",o:["2","4","8","12"],a:1},
+    {q:"Sasha's class is collecting cans. The bar graph shows: Week 1 = 10 cans, Week 2 = 18 cans, Week 3 = 24 cans, Week 4 = 30 cans. How many MORE cans were collected in Weeks 3 and 4 than in Weeks 1 and 2?",o:["12","18","26","82"],a:2},
+    {q:"The perimeter of a rectangular floor is 54 ft. If the length is 15 feet, what is the width?",o:["39 ft","24 ft","15 ft","12 ft"],a:3},
+    {q:"Henry has 2 meters of licorice rope. If he cuts it into pieces measuring 20 centimeters long, how many pieces will he have? (1 meter = 100 centimeters)",o:["5","10","20","40"],a:1},
+    {q:"Emma packed up 12 boxes of books. The maximum weight each box could hold is 15 kilograms. Which could be the total weight of the boxes Emma packed?",o:["300 kilograms","175 kilograms","1,200 kilograms","1,750 kilograms"],a:1},
+    {q:"Jackson's mom opened his bedroom door 15 degrees, and Jackson opened it another 26 degrees. What is the total number of degrees his door is open?",o:["11°","31°","41°","71°"],a:2},
+    {q:"A dancer turns 70° and stops. The dancer then turns a little more and stops again. If the dancer turned a total of 98°, what was the measure of her second turn?",o:["20°","28°","45°","168°"],a:1},
+    {q:"James's address is twenty-eight hundred Lansing Street. What number is on James's house?",o:["280","2,800","28,000","28,100"],a:1},
+    {q:"Which symbol makes this expression true?   25,688 ___ 26,588",o:["> (greater than)","< (less than)","≤ (less than or equal)","= (equal to)"],a:1},
+    {q:"A store sells 56,864 granola bars and 24,567 fruit snacks in a year. How many MORE granola bars than fruit snacks are sold in a year?",o:["32,297","32,303","70,321","81,431"],a:0},
+    {q:"The team already sold 5,472 tickets to the game. There are 6,400 seats in the stadium. How many more tickets can the team sell?",o:["928","1,038","1,072","1,928"],a:0},
+    {q:"Lisa's area model has columns labeled 80 and 3, and rows labeled 40 and 6, with cells showing 80×40, 3×40, 80×6, and 3×6. Which multiplication problem was Lisa solving?",o:["83 × 46","86 × 43","120 × 9","803 × 406"],a:0},
+    {q:"An area model has columns labeled 70 and 6, and rows labeled 40 and 8, giving partial products 2,800 + 240 + 560 + 48. Which expression represents the FINAL step in finding the product?",o:["70 × 40","(70 × 8) + (6 × 8)","2,800 × 240 × 560 × 48","2,800 + 240 + 560 + 48"],a:3},
+    {q:"Mike earned $258 each day for 6 days. Scott earned $439 each day for 8 days. How much money did Mike and Scott earn altogether?",o:["$1,548","$3,512","$4,698","$5,060"],a:3},
+    {q:"A car company sent an equal number of cars to 3 different dealerships. It sent a total of 516 cars. How many cars did each dealership receive?",o:["102","162","172","188"],a:2},
+    {q:"Hannah's Bake Shop makes 64 cupcakes on Saturday and 56 cupcakes on Sunday. The cupcakes are placed in boxes of 6. How many boxes of cupcakes did the bake shop make?",o:["2","8","10","20"],a:3},
+    {q:"Cedarwood Elementary has 122 boxes of pencils to split evenly between 8 classrooms. How many WHOLE boxes of pencils will each classroom receive?",o:["3","8","15","16"],a:2},
+    {q:"Tara has 152 seashells. She equally divided them into 8 boxes. How many seashells did Tara put in each box?",o:["17","19","1,206","1,216"],a:1},
+    {q:"The fourth-grade teachers gave 195 new pencils to students. They gave each student 3 pencils. How many students are in the fourth grade?",o:["61","62","65","66"],a:2},
+    {q:"Jalen put 560 building blocks into 9 bags equally until he didn't have enough for every bag. How many blocks did Jalen have left over?",o:["0","2","20","62"],a:1},
+    {q:"Which expression is NOT equal to the fraction 7/8?",o:["5/8 + 2/8","1/8 + 6/8","1/8 + 1/8 + 4/8 + 3/8","1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8 + 1/8"],a:2},
+    {q:"7/10 − 6/10 = ?",o:["1","1/10","1/20","1/100"],a:1},
+    {q:"Katie needs 6/8 cup of flour for a cake recipe. She has 1/8 cup of flour. How much more flour does Katie need?",o:["5/16 cup","7/16 cup","5/8 cup","7/8 cup"],a:2},
+    {q:"Holly travels 4/5 mile to school each day. She rides her bicycle 3/5 mile and walks the rest. How far does Holly walk to school each day?",o:["1/5 mile","2/5 mile","1 1/5 miles","1 2/5 miles"],a:0},
+    {q:"Liam looked at a rectangular model with 2 rows and 5 columns. 4 cells out of 10 are shaded. What fraction of the model is shaded?",o:["1/10","2/5","6/10","10/4"],a:1},
+    {q:"Mason and his family ate the shaded part of a pizza cut into 8 equal slices. Six slices are shaded (eaten). What fraction of the pizza did they eat?",o:["1/8","5/8","3/4","8/6"],a:2},
+    {q:"Olivia bought a box of 12 doughnuts (2 rows of 6). Her family ate 10 doughnuts. What fraction of the doughnuts did the family eat?",o:["1/6","9/12","5/6","12/10"],a:2},
+    {q:"Which inequality is true?",o:["3/4 < 5/10","7/10 > 3/4","2/5 < 2/6","2/3 > 3/5"],a:3},
+    {q:"Nathan read 40/100 of a book one day. He read 3/10 of the book the next day. Which expression shows the total fraction of the book Nathan has read?",o:["40/100 + 3/100","40/10 + 3/10","40/100 + 30/100","40/10 + 3/100"],a:2},
+    {q:"During a weather report, Byron heard that it rained 0.47 inches today. What is the equivalent fraction?",o:["4.7/1000","4.7/100","47/1000","47/100"],a:3},
+    {q:"Brad had a 10×10 grid with 60 squares shaded (representing 0.60). Which decimal is LESS than the shaded area?",o:["0.7","0.67","0.6","0.59"],a:3},
+    {q:"Jamison swims 1/2 mile for every 8 laps. He completes 164 laps in June. How many miles does he swim in June?",o:["4 miles","10 1/4 miles","20 1/2 miles","82 miles"],a:1},
+    {q:"Jo had 20 grams of fish food. She gave 3/4 of the fish food to the goldfish and the rest to the beta fish. How many grams of food did Jo give to the goldfish?",o:["4 grams","5 grams","12 grams","15 grams"],a:3},
+    {q:"How many numbers between 20 and 50 are multiples of 9?",o:["one","two","three","four"],a:2},
+    {q:"Which set contains ONLY composite numbers?",o:["{2, 6, 15, 24}","{4, 9, 27, 39}","{5, 15, 25, 35}","{9, 13, 29, 33}"],a:1},
+    {q:"Bao's number pattern: 3, 7, 4, 8, 5, 9, 6, 10 …  He says the pattern adds 3 then subtracts 4. Did Bao correctly describe the pattern?",o:["No — the pattern adds 4 to the first number and then subtracts 3.","No — the pattern subtracts 3 from the first number and then adds 4.","No — the pattern adds 3 to the first number and then adds 4.","Yes — Bao's description of the pattern is correct."],a:0},
+    {q:"Sean is 54 inches tall. His newborn sister is 18 inches tall. How many times taller is Sean than his sister?",o:["44","36","4","3"],a:3},
+    {q:"There are 2,564 students going on a field trip. If the maximum capacity of a school bus is 78 students, what is the LEAST number of buses needed?",o:["31","32","33","34"],a:2},
+    {q:"Dan had 3 packs of batteries. Each pack contained 8 batteries. Dan used 6 batteries in his radio. Which equation determines how many batteries (B) are left?",o:["B = 3 × 6 − 8","B = 6 × 8 − 3","B = 3 × 8 − 6","B = 6 − 3 × 8"],a:2}
+  ]
+},
+/* ── TEST 1: FORM A ── */
+{
+  title:"iReady Benchmark Form A",
+  questions:[
+    {q:"Kim sold 4 candy bars on Monday and 32 on Tuesday. She wrote: 32 = 8 × 4. Which statement BEST describes Kim's equation?",o:["32 is 8 times as many as 4.","32 is 4 more than 8.","8 is 4 times as many as 32.","8 is 4 more than 32."],a:0},
+    {q:"Elena had 25 postcards. Elena had 5 times as many postcards as Barb. How many postcards did Barb have?",o:["5","20","30","125"],a:0},
+    {q:"Jason had 18 containers of orange juice and 15 containers of apple juice. Each crate holds 6 containers. What is the FEWEST number of crates Jason could have used?",o:["4","5","6","33"],a:2},
+    {q:"Carla was saving money to buy a $40 backpack. She had $17 in the bank. She saved $5 more from raking leaves. How much MORE money did Carla need to save?",o:["$18","$22","$28","$62"],a:0},
+    {q:"Which of the following shows ALL factor pairs for 24?",o:["1 and 24, 2 and 6, 3 and 4, 8 and 12","1 and 24, 2 and 12, 3 and 8, 4 and 6","1 and 24, 2 and 12, 3 and 16, 4 and 20","1 and 23, 4 and 20, 6 and 18, 12 and 12"],a:1},
+    {q:"Which number is a multiple of 9?",o:["3","19","27","56"],a:2},
+    {q:"Jeff drew a repeating pattern: triangle, rectangle, rectangle (repeating). After 3 full groups of 3 (9 shapes total), the 10th shape is a triangle. What is the 11th shape?",o:["A triangle","A rectangle","A triangle on top of a rectangle","A rectangle beside a triangle"],a:1},
+    {q:"In the number 87,704, how does the 7 in the thousands place compare to the 7 in the hundreds place?",o:["It represents the same value.","It represents 10 times as much.","It represents 70 times as much.","It represents 100 times as much."],a:1},
+    {q:"The population of Central City is forty-nine thousand, five hundred two. How is this number written in standard form?",o:["49,522","49,520","49,512","49,502"],a:3},
+    {q:"Students collected 56,809 box tops. What is 56,809 written in expanded form?",o:["50,000 + 6,000 + 800 + 90","50,000 + 6,000 + 800 + 10 + 9","50,000 + 6,000 + 800 + 9","50,000 + 6,000 + 80 + 9"],a:2},
+    {q:"Which number goes in the box to make the number sentence true?   24,032 > ___",o:["24,024","24,032","24,320","26,032"],a:0},
+    {q:"On Saturday, 2,684 people came to the concert. On Sunday, 375 MORE people came than on Saturday. What was the TOTAL number of people who came last weekend?",o:["5,633","5,643","5,733","5,743"],a:3},
+    {q:"The original Yankee Stadium had 56,886 seats. The current stadium has 50,287 seats. How many FEWER seats does the new stadium have?",o:["5,699","6,601","6,609","6,599"],a:3},
+    {q:"City planners made a rectangular walking path 8 stones wide and 750 stones long. Which equation shows a way to find n, the total number of paving stones?",o:["(8 × 700) + (8 × 50) = n","8 + 750 = n","(8 × 8) × 750 = n","8 + 8 + 750 + 750 = n"],a:0},
+    {q:"Rachael drew an area model to multiply 23 and 13. What is the product of 23 and 13?",o:["36","230","299","690"],a:2},
+    {q:"Madison County had 535 new trees to plant in 7 parks equally. How many trees were planted in each park, and how many were left over?",o:["79, with 2 left over","76, with 3 left over","75, with 4 left over","72, with 5 left over"],a:1},
+    {q:"A model shows 368 ÷ 8. It uses four groups of 10 eights (= 80 each) plus one group of 6 eights (= 48). What is the quotient?",o:["16","46","80","128"],a:1},
+    {q:"Fraction bars show 1 whole divided into 8 equal parts, and also into 2 equal halves. Which fraction is equivalent to 4/8?",o:["2/8","1/2","2/2","8/8"],a:1},
+    {q:"Carol's family ate 2/3 of a pie. Which fraction is equivalent to 2/3?",o:["4/5","3/4","4/6","3/8"],a:2},
+    {q:"Lin ate less than 1/2 of a pizza. Which fraction of the pizza might Lin have eaten?",o:["7/8","4/6","3/6","3/8"],a:3},
+    {q:"Carlos cut a loaf of bread into 12 equal slices. He ate 3 slices. His sister Bonita ate 2 slices. What fraction of the loaf did they eat in all?",o:["1/5","2/5","5/12","5/6"],a:2},
+    {q:"Which expression does NOT have a value of 5/6?",o:["1/6 + 1/6 + 1/6 + 1/6 + 1/6","1/6 + 2/6 + 2/6","1/6 + 2/6 + 3/6","2/6 + 3/6"],a:2},
+    {q:"Allen used 1 1/4 quarts of orange juice and 1 2/4 quarts of grape juice for punch. How many quarts of juice did Allen use in all?",o:["2 3/4 qt","3 1/4 qt","3 3/8 qt","3 3/4 qt"],a:0},
+    {q:"Phillip had 5 4/8 feet of ribbon. He used 2 5/8 feet to wrap a gift. How many feet of ribbon did Phillip have left?",o:["2 7/8 ft","3 1/8 ft","3 7/8 ft","8 1/8 ft"],a:0},
+    {q:"Chang used the remaining pieces from 7 cream pies to make 7/8 of a whole pie. Which expression is another way to show 7/8?",o:["1/8 × 7/8","7 × 1/8","4/8 + 3","1/7 × 1/8"],a:1},
+    {q:"Sheila made 12 jars of tomato sauce. Each jar weighed 1/4 pound. How many pounds did the jars of sauce weigh in all?",o:["3 lb","4 lb","8 lb","12 1/4 lb"],a:0},
+    {q:"On a number line from 0.40 to 0.50, point C is at 0.43. Which fraction does point C represent?",o:["41/100","43/100","40/30","43/10"],a:1},
+    {q:"A 10×10 square grid has 25 squares shaded, representing 25/100. Which decimal number is equivalent to 25/100?",o:["0.2","0.25","2.05","2.50"],a:1},
+    {q:"Which symbol replaces the question mark to correctly compare?   0.48 ? 0.56",o:["< (less than)","> (greater than)","+ (plus)","= (equal)"],a:0},
+    {q:"Randy wants to buy a large container of lemonade. Which size holds the MOST lemonade?",o:["1,000 milliliters","0.5 milliliters","3 liters","2 liters"],a:2},
+    {q:"Colten's piano lesson begins at 4:40 p.m. and lasts for 35 minutes. At what time does the lesson end?",o:["4:05 p.m.","4:55 p.m.","5:00 p.m.","5:15 p.m."],a:3},
+    {q:"A garden is 125 meters long and 40 meters wide. How many meters of fencing are needed to go all the way around the garden?",o:["165 m","230 m","330 m","5,000 m"],a:2},
+    {q:"Hector's line plot shows plant heights. The tallest plant grew to 4 cm and the shortest plant grew to 1 cm. What is the difference between the tallest and shortest plant heights?",o:["4 cm","3 cm","2 cm","1 cm"],a:1},
+    {q:"A diagram shows angle QRS formed between two rays from point R. Based on the angle shown (about 70°), what is the measure of angle QRS?",o:["60°","70°","80°","110°"],a:1},
+    {q:"From point U, rays go to T, V, W, and Z. Angle TUV = 45°, angle VUW = 42°, angle WUZ = 28°. What is the measure of angle TUZ?",o:["65°","87°","105°","115°"],a:3},
+    {q:"A figure shows line AC (vertical) with right-angle markers where line DE crosses it. Which line is perpendicular to line AC?",o:["line EF","line BG","line DE","line BF"],a:2},
+    {q:"A triangle has a small square symbol at one corner (indicating a 90° right angle). Which name BEST describes this triangle?",o:["right triangle","acute triangle","obtuse triangle","equilateral triangle"],a:0},
+    {q:"Four shapes are shown: A = square, B = tall rectangle (not square), C = rhombus (all equal sides, no right angles), D = slanted parallelogram. Which two figures can be classified as a quadrilateral, parallelogram, AND rhombus?",o:["Figure A and Figure B","Figure C and Figure D","Figure A and Figure C","Figure B and Figure D"],a:2},
+    {q:"Four puzzle pieces are shown, each with a line drawn through them. Option D shows a vertical line through the exact center of the puzzle piece, creating mirror-image halves. Which picture shows a TRUE line of symmetry?",o:["Option A — diagonal line","Option B — horizontal line","Option C — off-center vertical line","Option D — vertical line through center"],a:3},
+    {q:"Which figure has EXACTLY two lines of symmetry?",o:["A rectangle (that is not a square)","A kite shape","A right triangle","A regular hexagon"],a:0}
+  ]
+},
+/* ── TEST 2: FORM B ── */
+{
+  title:"iReady Benchmark Form B",
+  questions:[
+    {q:"There are 6 clothespins on the clothesline. There are 7 times as many clothespins in the bag. How many clothespins are in the bag?",o:["7","13","42","48"],a:2},
+    {q:"Marion scored 20 points on Saturday. This was 4 times as many points as she scored on Sunday. How many points did Marion score on Sunday?",o:["5","16","24","80"],a:0},
+    {q:"Toni has two books: one with 213 pages and one with 189 pages. She rounds each to the nearest hundred and adds. What is Toni's estimate?",o:["200","300","400","500"],a:2},
+    {q:"Andre bought 5 packages of fruit juice with 6 bottles each, and already had 8 bottles at home. Which equation finds b, the total number of bottles?",o:["(5 × 6) + 8 = b","(5 + 6) + 8 = b","(5 × 8) ÷ 6 = b","5 × (6 + 8) = b"],a:0},
+    {q:"Mrs. Henderson had chores for 7 family members, each getting the same number. How many chores could have been on Mrs. Henderson's list?",o:["47","66","84","93"],a:2},
+    {q:"Anna listed composite numbers: 4, 12, 11, 9, 15, 21, 10. Which number on Anna's list is NOT a composite number?",o:["9","11","12","21"],a:1},
+    {q:"Alicia's pattern: 146, 139, 132, 125, … (subtract 7 each time). Which set of numbers does NOT follow the same rule?",o:["62, 55, 48, 41, …","57, 51, 45, 39, …","90, 83, 76, 69, …","213, 206, 199, 192, …"],a:1},
+    {q:"Robert formed a triangular counter pattern. The first four figures have 1, 3, 6, 10 counters. How many counters are needed for the SIXTH figure?",o:["15","18","21","28"],a:2},
+    {q:"The attendance at the football game was 5,570. Which number sentence shows how the 5 on the LEFT (thousands) compares to the 5 on the RIGHT (hundreds)?",o:["500 ÷ 500 = 1","5,000 ÷ 500 = 10","500 ÷ 10 = 50","5,000 ÷ 50 = 100"],a:1},
+    {q:"A website has been visited 91,038 times. How is this number written in words?",o:["nine hundred thousand, one hundred thirty-eight","ninety-one thousand, three hundred eight","nine thousand, one hundred thirty-eight","ninety-one thousand, thirty-eight"],a:3},
+    {q:"Population of Capital City: 1990 = 57,631; 2000 = 75,631; 2010 = 75,361. Which population comparison is true?",o:["57,631 > 75,361","75,631 = 75,361","75,631 > 75,361","75,631 < 57,631"],a:2},
+    {q:"Marco's family travels from Tacoma, WA to Denver, CO (1,345 miles), then from Denver, CO to Nashville, TN (1,157 miles). What is the DIFFERENCE between the two trip distances?",o:["188 miles","212 miles","288 miles","298 miles"],a:0},
+    {q:"Yul hopes to earn $245 each month mowing lawns. How much would Yul earn in 6 months?",o:["$1,240","$1,270","$1,430","$1,470"],a:3},
+    {q:"Susie needs to find the product of 25 and 47. Which is a correct way to find the product?",o:["(25 × 50) − (25 × 3)","(25 × 40) × (25 × 7)","(25 × 4) + (25 × 7)","(2 × 4) + (2 × 7) + (5 × 4) + (5 × 7)"],a:0},
+    {q:"Landon planted 35 rows of strawberry plants with 18 plants in each row. How many strawberry plants did Landon plant?",o:["694","630","315","275"],a:1},
+    {q:"Marty's Pillow Company has an order for 435 pillows. Marty makes 9 pillows a day. How many days would it take to complete the order?",o:["44","48","49","52"],a:2},
+    {q:"Glenda builds toy cars by attaching 4 wheels to each. If Glenda has 357 wheels, how many toy cars can she make and how many wheels are left over?",o:["91 cars with 1 wheel left over","90 cars with 0 wheels left over","89 cars with 2 wheels left over","89 cars with 1 wheel left over"],a:3},
+    {q:"Three friends share a brownie. Divided into 3 parts each friend gets 1/3. Divided into 6 parts each friend gets 2/6. Which statement is true?",o:["The friends get more if divided into 6 pieces because they each get 2 pieces.","The friends should not divide into 6 pieces because the pieces are smaller.","It is not possible to compare because the pieces are not the same size.","The friends get the same amount whether they divide it into 3 pieces or 6 pieces."],a:3},
+    {q:"Mr. Napolitano had driven 2/5 of his route home when he called his wife. He said he had already PASSED Stop and Buy Market. At what fraction of the route home could Stop and Buy Market be located?",o:["1/2","2/3","3/4","3/10"],a:3},
+    {q:"Tam made 5/8 gallon of plant food. She used 3/8 gallon for her daisies. How much plant food did Tam have left?",o:["1/4 gal","3/8 gal","3/4 gal","8/8 gal"],a:0},
+    {q:"Which is another way to write 2 5/6?",o:["2 + 1 + 2/6 + 1/6 + 1/6","1 + 1 + 1/6 + 3/6 + 1/6","2 + 2/6 + 3/3","1 + 2/6 + 2/6 + 1/6"],a:1},
+    {q:"Maya mixed 1 3/6 cups of blue paint and 2 4/6 cups of yellow paint. How many cups of green paint did Maya make?",o:["3 1/6 c","3 7/12 c","3 5/6 c","4 1/6 c"],a:3},
+    {q:"Danielle cut a pan of granola into 12 equal squares. Her brother ate 3/12, her sister ate 2/12, and Danielle ate 5/12. Which equation determines g, the fraction of granola squares LEFT?",o:["3/12 + 2/12 + 5/12 = g","5/12 − 3/12 − 2/12 = g","1 + (3/12 + 2/12 + 5/12) = g","1 − (3/12 + 2/12 + 5/12) = g"],a:3},
+    {q:"Leland cut pentagon-shaped paper into fifths. He ended up with 15 fifths (15/5). What is ANOTHER way to write 15/5?",o:["3 × 1/5","15/2 + 15/3","3 × 5","15 × 1/5"],a:3},
+    {q:"Chef Peggy served a 1/8-pound scoop of cranberry sauce with every turkey dinner. How many pounds of cranberry sauce did she need for 56 turkey dinners?",o:["7 lb","8 lb","48 lb","55 7/8 lb"],a:0},
+    {q:"Kala wants to mail 9 boxes of dried fruit. Each box weighs 3/4 pound. Which equation finds the total weight of the boxes?",o:["9 + 3/4 = 9 3/4","9 − 3/4 = 8 1/4","9 × 3/4 = 27/4 = 6 3/4","(9 + 3) ÷ 4 = 12/4 = 3"],a:2},
+    {q:"Petra walked 5/10 km on Saturday and 35/100 km on Sunday. How far did Petra walk on Saturday and Sunday combined?",o:["30/100 km","40/100 km","85/100 km","40/10 km"],a:2},
+    {q:"Pablo has finished 0.6 of the fence-painting job. Which fraction is equivalent to 0.6?",o:["6/100","4/10","6/10","10/6"],a:2},
+    {q:"Third graders made 0.37 of a quilt's squares. Fourth graders made 0.28 of the squares. Which number sentence shows how the two numbers compare?",o:["0.37 > 0.28","0.28 > 0.37","0.37 < 0.28","0.28 = 0.37"],a:0},
+    {q:"Min had 5 meters of wire. After making 3 flower arrangements, Min had 148 centimeters of wire left. How much wire did Min USE?",o:["143 cm","262 cm","348 cm","352 cm"],a:3},
+    {q:"Martina has 4 liters of water at home. She buys 3 bottles that each contain 500 milliliters. How much water does Martina have now?",o:["4,500 mL","5,500 mL","7,000 mL","9,000 mL"],a:1},
+    {q:"A table shows: 1 kg = 1,000 g, 8 kg = 8,000 g, 10 kg = 10,000 g. How many grams are in 12 kilograms?",o:["12,000 grams","14,000 grams","15,000 grams","20,000 grams"],a:0},
+    {q:"Mimi started riding her bike at 10:20 a.m. and rode until 11:05 a.m. How many minutes was Mimi's bike ride?",o:["45 minutes","40 minutes","15 minutes","5 minutes"],a:0},
+    {q:"Mandi has 30 cm of ribbon to sew around the sides of a doll pillow. She wants to use ALL the ribbon. Which pillow measurements will Mandi NOT be able to make?",o:["3 cm by 12 cm","5 cm by 11 cm","6 cm by 9 cm","7 cm by 8 cm"],a:1},
+    {q:"A bar graph shows cafeteria lunches by day: Mon=10, Tue=20, Wed=15, Thu=20, Fri=5. Which statement is NOT true?",o:["The same number of students ate cafeteria lunches on Tuesday and Thursday.","The fewest number of students ate cafeteria lunches on Friday.","No more than 20 students ate cafeteria lunches on any day.","The number of students who ate on Wednesday is between the number who ate on Monday and Friday."],a:3},
+    {q:"Tracy wrote a survey question to collect CATEGORICAL data. Which question could be Tracy's?",o:["What is your favorite color?","How many books do you have?","How many brothers and sisters do you have?","How many days have you been absent from school this year?"],a:0},
+    {q:"A house-shaped pentagon has vertex A at the roof peak (obtuse), vertex C at the bottom right (obtuse), and vertex D at the bottom left (right angle — shown by a small square). Which BEST describes angles A, C, and D?",o:["Angle A is acute, angles C and D are obtuse.","Angle A is acute, angle C is obtuse, and angle D is right.","Angles A and C are obtuse, and angle D is right.","Angles A, C, and D are all obtuse."],a:2},
+    {q:"A drawing shows a vertical line and a horizontal ray that meet at a right angle. Which phrase BEST describes this drawing?",o:["two perpendicular lines","a ray perpendicular to a line segment","two parallel lines","a ray parallel to a line segment"],a:1},
+    {q:"A parallelogram (slanted shape, no right angles) is shown. Which statement about this shape is NOT true?",o:["There are no right angles.","Two pairs of sides are parallel.","There are no perpendicular sides.","All the sides have the same length."],a:3},
+    {q:"Four letter A's are shown, each with a different line drawn through them. Option D shows a vertical line from top to bottom through the exact center of the A. Which shows a CORRECTLY drawn line of symmetry?",o:["Option A — horizontal line through the top crossbar","Option B — diagonal line from upper-left to lower-right","Option C — horizontal line through the middle of the letter","Option D — vertical line through the center of the letter A"],a:3}
+  ]
+}
+];
+
+/* ═══════════════════════════════════════════════
+   STATE & STORAGE
+═══════════════════════════════════════════════ */
+const COLORS = ['#4caf50','#2196f3','#ff9800'];
+const LETTERS = ['A','B','C','D'];
+let submitted = [false, false, false];
+let scores = JSON.parse(localStorage.getItem('eog_prep_scores') || '{}');
+
+/* ═══════════════════════════════════════════════
+   BUILD QUESTIONS ON LOAD
+═══════════════════════════════════════════════ */
+function buildAllTests(){
+  TESTS.forEach((t,ti)=>{
+    const container = document.getElementById('qs'+ti);
+    container.innerHTML = t.questions.map((q,qi)=>`
+      <div class="q-block" id="qb${ti}_${qi}">
+        <div class="q-num">Question ${qi+1} of 40</div>
+        <div class="q-text">${q.q}</div>
+        <div class="opts">
+          ${q.o.map((opt,oi)=>`
+            <label class="opt" id="opt${ti}_${qi}_${oi}">
+              <input type="radio" name="t${ti}q${qi}" value="${oi}" onchange="updateTab(${ti})">
+              <span class="opt-ltr opt-ltr-${ti}">${LETTERS[oi]}.</span>
+              <span>${opt}</span>
+            </label>`).join('')}
+        </div>
+      </div>`).join('');
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   TABS
+═══════════════════════════════════════════════ */
+function switchTab(idx){
+  document.querySelectorAll('.test-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>{b.className='tab-btn'});
+  document.getElementById('panel'+idx).classList.add('active');
+  document.getElementById('tab'+idx).classList.add('active-'+idx);
+}
+
+function updateTab(ti){
+  // Just called on radio change — could update a live progress indicator
+}
+
+function updateTabScores(){
+  TESTS.forEach((t,ti)=>{
+    const el = document.getElementById('tscore'+ti);
+    const sc = scores[ti];
+    if(sc===undefined){
+      el.textContent='Not started';
+    } else {
+      const pct=Math.round(sc/40*100);
+      el.textContent=sc+'/40 — '+pct+'%';
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   SUBMIT
+═══════════════════════════════════════════════ */
+function submitTest(ti){
+  if(submitted[ti]) return;
+  const t = TESTS[ti];
+  const missing=[];
+  for(let qi=0;qi<40;qi++){
+    if(!document.querySelector(`input[name="t${ti}q${qi}"]:checked`)) missing.push(qi+1);
+  }
+  if(missing.length>0){
+    document.getElementById('smsg'+ti).textContent=
+      `Please answer all questions. Still missing: Q${missing.slice(0,6).join(', Q')}${missing.length>6?'…':''}`;
+    return;
+  }
+
+  submitted[ti]=true;
+  document.getElementById('sbtn'+ti).style.display='none';
+  document.getElementById('smsg'+ti).textContent='';
+
+  let correct=0;
+  const wrong=[];
+  for(let qi=0;qi<40;qi++){
+    const sel=document.querySelector(`input[name="t${ti}q${qi}"]:checked`);
+    const chosen=parseInt(sel.value);
+    const ans=t.questions[qi].a;
+    // lock all radios in this question
+    document.querySelectorAll(`input[name="t${ti}q${qi}"]`).forEach(r=>r.disabled=true);
+    document.querySelectorAll(`#qb${ti}_${qi} .opt`).forEach(l=>l.classList.add('locked'));
+    if(chosen===ans){
+      correct++;
+      document.getElementById(`opt${ti}_${qi}_${chosen}`).classList.add('correct');
+    } else {
+      document.getElementById(`opt${ti}_${qi}_${chosen}`).classList.add('wrong');
+      document.getElementById(`opt${ti}_${qi}_${ans}`).classList.add('show-correct');
+      wrong.push({qi,chosen,ans});
+    }
+  }
+
+  scores[ti]=correct;
+  localStorage.setItem('eog_prep_scores', JSON.stringify(scores));
+  updateTabScores();
+  showResult(ti, correct, wrong);
+}
+
+/* ═══════════════════════════════════════════════
+   SHOW RESULT CARD
+═══════════════════════════════════════════════ */
+function showResult(ti, correct, wrong){
+  const pct=Math.round(correct/40*100);
+  const ringClass=pct>=80?'ring-pass':pct>=60?'ring-mid':'ring-fail';
+  const msg=pct>=80?'Great job! 🎉':pct>=60?'Keep practicing! 💪':'Needs more practice 📚';
+
+  let wrongHTML='';
+  if(wrong.length===0){
+    wrongHTML='<p style="color:#2e7d32;font-weight:600;padding:10px 0">Perfect score! All 40 correct! 🌟</p>';
+  } else {
+    wrongHTML=wrong.map(w=>{
+      const q=TESTS[ti].questions[w.qi];
+      const shortQ=q.q.length>130?q.q.substring(0,130)+'…':q.q;
+      return `<div class="rev-item">
+        <div class="rev-q"><strong>Q${w.qi+1}:</strong> ${shortQ}</div>
+        <div class="rev-your">✗ Your answer: ${LETTERS[w.chosen]}. ${q.o[w.chosen]}</div>
+        <div class="rev-right">✓ Correct answer: ${LETTERS[w.ans]}. ${q.o[w.ans]}</div>
+      </div>`;
+    }).join('');
+  }
+
+  const res=document.getElementById('result'+ti);
+  res.innerHTML=`
+    <div class="score-card">
+      <div class="score-ring ${ringClass}">
+        <div class="score-num">${correct}</div>
+        <div class="score-tot">/ 40</div>
+      </div>
+      <div class="score-msg">${pct}% &mdash; ${msg}</div>
+      <button class="retry-btn" onclick="retryTest(${ti})">Retake This Test</button>
+    </div>
+    <div class="wrong-review">
+      <h3>Review — Questions You Missed (${wrong.length})</h3>
+      ${wrongHTML}
+    </div>`;
+  res.classList.remove('hidden');
+  res.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ═══════════════════════════════════════════════
+   RETRY
+═══════════════════════════════════════════════ */
+function retryTest(ti){
+  submitted[ti]=false;
+  // reset all radios
+  document.querySelectorAll(`input[name^="t${ti}q"]`).forEach(r=>{
+    r.checked=false; r.disabled=false;
+  });
+  // remove coloring
+  document.querySelectorAll(`#qs${ti} .opt`).forEach(l=>{
+    l.classList.remove('correct','wrong','show-correct','locked');
+  });
+  // hide result, show submit
+  document.getElementById('result'+ti).classList.add('hidden');
+  document.getElementById('sbtn'+ti).style.display='inline-block';
+  document.getElementById('smsg'+ti).textContent='';
+  // scroll to top of panel
+  document.getElementById('panel'+ti).scrollIntoView({behavior:'smooth'});
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+buildAllTests();
+updateTabScores();
+switchTab(0);
+</script>
+</body>
+</html>
